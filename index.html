@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>SoniTrace</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Website" />
+    <meta name="author" content="Till Müller & Serg Garbowski" />
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+
+    <!-- Fonts & Icons -->
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700&display=swap" rel="stylesheet" />
+
+    <!-- Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Site CSS -->
+    <link href="css/styles.css" rel="stylesheet" />
+  </head>
+  <body id="page-top">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand d-flex align-items-center gap-2" href="#page-top">
+          <img src="assets/img/navbar-logo.svg" alt="SoniTrace" height="28" />
+          <span class="beta-badge">BETA</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          Menu <i class="fas fa-bars ms-1"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+            <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+            <li class="nav-item"><a class="nav-link" href="#portfolio">Portfolio</a></li>
+            <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="#team">Team</a></li>
+            <li class="nav-item"><a class="nav-link" href="#contact">Kontakt</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Masthead -->
+    <header class="masthead">
+      <div class="container">
+        <div class="masthead-subheading">Welcome To Our Place!</div>
+        <div class="masthead-heading text-uppercase">It's Nice To Meet You</div>
+        <a class="btn btn-primary btn-xl text-uppercase" href="#services">Tell Me More</a>
+      </div>
+    </header>
+
+    <!-- Services -->
+    <section class="page-section" id="services">
+      <div class="container">
+        <div class="text-center">
+          <h2 class="section-heading text-uppercase">Services</h2>
+          <h3 class="section-subheading text-muted">Dienstleistungen von SoniTrace.</h3>
+        </div>
+        <div class="row text-center">
+          <div class="col-md-4">
+            <span class="fa-stack fa-4x">
+              <i class="fas fa-circle fa-stack-2x text-primary"></i>
+              <i class="fas fa-shopping-cart fa-stack-1x fa-inverse"></i>
+            </span>
+            <h4 class="my-3">Shop</h4>
+            <p class="text-muted">Wir haben einen eigenen Shop indem wir Produkte wie den Flybi zum Kauf anbieten.</p>
+          </div>
+          <div class="col-md-4">
+            <span class="fa-stack fa-4x">
+              <i class="fas fa-circle fa-stack-2x text-primary"></i>
+              <i class="fas fa-school fa-stack-1x fa-inverse"></i>
+            </span>
+            <h4 class="my-3">Bildung</h4>
+            <p class="text-muted">Material für Projektwochen und Workshops. Steigere die Umweltawareness jetzt.</p>
+          </div>
+          <div class="col-md-4">
+            <span class="fa-stack fa-4x">
+              <i class="fas fa-circle fa-stack-2x text-primary"></i>
+              <i class="fas fa-retweet fa-stack-1x fa-inverse"></i>
+            </span>
+            <h4 class="my-3">Verleih</h4>
+            <p class="text-muted">Wir bieten einen Verleihservice zum Kennenlernen oder für kurzfristige Projekte.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Portfolio -->
+    <section class="page-section bg-light" id="portfolio">
+      <div class="container">
+        <div class="text-center">
+          <h2 class="section-heading text-uppercase">Portfolio</h2>
+          <h3 class="section-subheading text-muted">Produkte von SoniTrace.</h3>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 col-sm-6 mb-4">
+            <div class="portfolio-item">
+              <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal1">
+                <div class="portfolio-hover"><div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div></div>
+                <img class="img-fluid" src="images/portfolio/home-ansicht.jpg" alt="FlyBi Home Edition" />
+              </a>
+              <div class="portfolio-caption">
+                <div class="portfolio-caption-heading">FlyBi Home Edition</div>
+                <div class="portfolio-caption-subheading text-muted">Tracke die Vogelwelt deiner direkten Umgebung mit Touchscreen Dashboard</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-sm-6 mb-4">
+            <div class="portfolio-item">
+              <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal2">
+                <div class="portfolio-hover"><div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div></div>
+                <img class="img-fluid" src="images/portfolio/mobile-wooddesk-portfolio.png" alt="FlyBi Mobile Edition" />
+              </a>
+              <div class="portfolio-caption">
+                <div class="portfolio-caption-heading">FlyBi Mobile Edition</div>
+                <div class="portfolio-caption-subheading text-muted">Welchen Vögel wirst du heute begegnen? Finde es heraus mit der mobilen Version von Flybi.</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-sm-6 mb-4">
+            <div class="portfolio-item">
+              <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal3">
+                <div class="portfolio-hover"><div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div></div>
+                <img class="img-fluid" src="images/portfolio/case-boden.jpeg" alt="FlyBi Explorer Edition" />
+              </a>
+              <div class="portfolio-caption">
+                <div class="portfolio-caption-heading">FlyBi Explorer Edition</div>
+                <div class="portfolio-caption-subheading text-muted">Off the Grid – wasser- und sturzresistentes Case.</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-sm-6 mb-4 mb-lg-0">
+            <div class="portfolio-item">
+              <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal4">
+                <div class="portfolio-hover"><div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div></div>
+                <img class="img-fluid" src="images/coming_soon_pi.png" alt="TrafficPi" />
+              </a>
+              <div class="portfolio-caption">
+                <div class="portfolio-caption-heading">TrafficPi</div>
+                <div class="portfolio-caption-subheading text-muted">In Entwicklung</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-sm-6 mb-4 mb-lg-0">
+            <div class="portfolio-item">
+              <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal5">
+                <div class="portfolio-hover"><div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div></div>
+                <img class="img-fluid" src="images/coming_soon_pi.png" alt="HouseholdPi" />
+              </a>
+              <div class="portfolio-caption">
+                <div class="portfolio-caption-heading">HouseholdPi</div>
+                <div class="portfolio-caption-subheading text-muted">In Entwicklung</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section class="page-section" id="about">
+      <div class="container">
+        <div class="text-center">
+          <h2 class="section-heading text-uppercase">About</h2>
+          <h3 class="section-subheading text-muted">Erfahre hier mehr über SoniTrace.</h3>
+        </div>
+        <ul class="timeline">
+          <li>
+            <div class="timeline-image"><img class="rounded-circle img-fluid" src="images/about/1.jpg" alt="Frühjahr 2025" /></div>
+            <div class="timeline-panel">
+              <div class="timeline-heading">
+                <h4>Frühjahr 2025</h4>
+                <h4 class="subheading">Die Idee entsteht</h4>
+              </div>
+              <div class="timeline-body"><p class="text-muted">Aus einem gemeinsamen Interesse an Natur und Technik entstand im Frühjahr 2025 die Idee, ein Gerät zu entwickeln, das Vogelstimmen automatisch erkennt. Ziel war eine einfache, zugängliche Lösung für alle, die ihre Umgebung bewusster wahrnehmen wollen.</p></div>
+            </div>
+          </li>
+          <li class="timeline-inverted">
+            <div class="timeline-image"><img class="rounded-circle img-fluid" src="images/about/case-3ddruck.jpg" alt="Sommer 2025" /></div>
+            <div class="timeline-panel">
+              <div class="timeline-heading">
+                <h4>Sommer 2025</h4>
+                <h4 class="subheading">Erste Prototypen</h4>
+              </div>
+              <div class="timeline-body"><p class="text-muted">Nach intensiver Recherche und Experimenten mit Mikrofonen, Signalverarbeitung und Machine-Learning-Tools entstand der erste funktionsfähige Prototyp. Die Anwendung erkannte zuverlässig Vogelarten in Echtzeit und legte den Grundstein für weitere Varianten.</p></div>
+            </div>
+          </li>
+          <li>
+            <div class="timeline-image"><img class="rounded-circle img-fluid" src="images/about/exp-auto-fenst.jpg" alt="Herbst 2025" /></div>
+            <div class="timeline-panel">
+              <div class="timeline-heading">
+                <h4>Herbst 2025</h4>
+                <h4 class="subheading">Produktlinien formen sich</h4>
+              </div>
+              <div class="timeline-body"><p class="text-muted">Mit zunehmender Erfahrung entwickelten sich mehrere Anwendungsszenarien: – Home Edition – mit integriertem Touchscreen und lokalem Dashboard – Explorer Edition – robustes Gehäuse für den Außeneinsatz – Mobile Version – ohne Display, mit Steuerung über Smartphone</p></div>
+            </div>
+          </li>
+          <li class="timeline-inverted">
+            <div class="timeline-image"><img class="rounded-circle img-fluid" src="images/about/prinz-mobile-fahrrad.jpg" alt="Ende 2025" /></div>
+            <div class="timeline-panel">
+              <div class="timeline-heading">
+                <h4>Ende 2025</h4>
+                <h4 class="subheading">Ziel: Version 1.0</h4>
+              </div>
+              <div class="timeline-body"><p class="text-muted">Das Team arbeitet an der ersten voll funktionsfähigen Softwareversion. Parallel laufen Anträge auf Fördergelder, Crowdfunding und Gründungsunterstützung, um den nächsten Entwicklungsschritt zu finanzieren.</p></div>
+            </div>
+          </li>
+          <li class="timeline-inverted">
+            <div class="timeline-image"><h4>Vision 2026<br />Coming<br />Soon!</h4></div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Team -->
+    <section class="page-section bg-light" id="team">
+      <div class="container">
+        <div class="text-center">
+          <h2 class="section-heading text-uppercase">Unser Team</h2>
+          <h3 class="section-subheading text-muted">Das Team von SoniTrace</h3>
+        </div>
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="team-member">
+              <img class="mx-auto rounded-circle" src="images/team/till-arbeit.jpg" alt="Till Müller" />
+              <h4>Till Müller</h4>
+              <p class="text-muted"></p>
+              <a class="btn btn-dark btn-social mx-2" href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+              <a class="btn btn-dark btn-social mx-2" href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+              <a class="btn btn-dark btn-social mx-2" href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="team-member">
+              <img class="mx-auto rounded-circle" src="images/team/serg-arbeit.jpg" alt="Serg Garbowski" />
+              <h4>Serg Garbowski</h4>
+              <p class="text-muted"></p>
+              <a class="btn btn-dark btn-social mx-2" href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+              <a class="btn btn-dark btn-social mx-2" href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+              <a class="btn btn-dark btn-social mx-2" href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="team-member">
+              <img class="mx-auto rounded-circle" src="images/coming_soon_pi.png" alt="Maybe you" />
+              <h4>Maybe</h4>
+              <p class="text-muted">You?</p>
+              <a class="btn btn-dark btn-social mx-2" href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+              <a class="btn btn-dark btn-social mx-2" href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+              <a class="btn btn-dark btn-social mx-2" href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="page-section" id="contact">
+      <div class="container">
+        <div class="text-center">
+          <h2 class="section-heading text-uppercase">Kontaktiere uns</h2>
+          <h3 class="section-subheading text-muted">Du hast eine Frage, Kritik oder Anregung.</h3>
+        </div>
+        <!-- Static client-side validation only; replace action with your form endpoint if needed. -->
+        <form id="contactForm" class="needs-validation" novalidate>
+          <div class="row align-items-stretch mb-5">
+            <div class="col-md-6">
+              <div class="form-group mb-3">
+                <input class="form-control" id="name" type="text" placeholder="Your Name *" required />
+                <div class="invalid-feedback">A name is required.</div>
+              </div>
+              <div class="form-group mb-3">
+                <input class="form-control" id="email" type="email" placeholder="Your Email *" required />
+                <div class="invalid-feedback">Valid email required.</div>
+              </div>
+              <div class="form-group mb-3">
+                <input class="form-control" id="phone" type="tel" placeholder="Your Phone *" required />
+                <div class="invalid-feedback">A phone number is required.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group form-group-textarea mb-md-0">
+                <textarea class="form-control" id="message" placeholder="Your Message *" required></textarea>
+                <div class="invalid-feedback">A message is required.</div>
+              </div>
+            </div>
+          </div>
+          <div class="text-center"><button class="btn btn-primary btn-xl text-uppercase" id="submitButton" type="submit">Send Message</button></div>
+          <div class="d-none text-center mt-3" id="submitSuccessMessage"><div class="fw-bolder">Form submission successful.</div></div>
+          <div class="d-none text-center mt-3" id="submitErrorMessage"><div class="text-danger">Error sending message.</div></div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer py-4">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-4 text-lg-start">Copyright © SoniTrace 2025</div>
+          <div class="col-lg-4 my-3 my-lg-0">
+            <a class="btn btn-dark btn-social mx-2" href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a class="btn btn-dark btn-social mx-2" href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a class="btn btn-dark btn-social mx-2" href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+          <div class="col-lg-4 text-lg-end">
+            <a class="link-dark text-decoration-none me-3" href="#">Privacy Policy</a>
+            <a class="link-dark text-decoration-none" href="#">Terms of Use</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Modals -->
+    <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog"><div class="modal-content">
+        <button class="modal-close" data-bs-dismiss="modal" aria-label="Close">
+          <img src="assets/img/close-icon.svg" alt="Close modal" />
+        </button>
+        <div class="container"><div class="row justify-content-center"><div class="col-lg-8"><div class="modal-body">
+          <h2 class="text-uppercase">FlyBi - Home Edition</h2>
+          <p class="item-intro text-muted">FlyBi verbindet Technik mit Naturerlebnis.</p>
+          <img class="img-fluid d-block mx-auto" src="images/portfolio/home-ansicht.jpg" alt="Home Edition" />
+          <p>Die FlyBi Home Edition ist ein kompaktes Vogelbeobachtungssystem mit 7-Zoll-Touchscreen und der intuitiven FlyBi Software v1.0. Sie erkennt Vogelstimmen in Echtzeit, zeigt die jeweilige Art an und speichert alle Aufnahmen automatisch in einer internen Datenbank. Über das Dashboard lassen sich Top-Arten, Statistiken und Hörverläufe direkt einsehen. Export als PDF/E-Mail oder Cloud-Upload möglich. Erkennung aller Arten in Deutschland und über 8.500 weltweit. Online/Offline-Betrieb. Netzstecker oder kurzzeitig Powerbank. 6‑m‑Mikrofonkabel inklusive.</p>
+          <ul class="list-inline">
+            <li><strong>Preis (Deutschland):</strong> 390,00 €</li>
+            <li><strong>Preis (Österreich):</strong> 399,00 €</li>
+          </ul>
+          <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button"><i class="fas fa-xmark me-1"></i> Close</button>
+        </div></div></div></div>
+      </div></div>
+    </div>
+
+    <div class="portfolio-modal modal fade" id="portfolioModal2" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog"><div class="modal-content">
+        <button class="modal-close" data-bs-dismiss="modal" aria-label="Close">
+          <img src="assets/img/close-icon.svg" alt="Close modal" />
+        </button>
+        <div class="container"><div class="row justify-content-center"><div class="col-lg-8"><div class="modal-body">
+          <h2 class="text-uppercase">FlyBi - Mobile Edition</h2>
+          <p class="item-intro text-muted">Unterwegs. Leicht. Zuverlässig.</p>
+          <img class="img-fluid d-block mx-auto" src="images/portfolio/mobile-wooddesk-portfolio.png" alt="Mobile Edition" />
+          <p>Die Mobile Edition verzichtet auf Touchscreen und wird über WLAN vom Handy/Laptop bedient. Gleiche Erkennungspräzision wie Home Edition. Offline/Online, lokale DB mit Export als PDF/E-Mail/Cloud. Betrieb per Powerbank. 6‑m‑Mikrofonkabel für flexible Aufstellung.</p>
+          <ul class="list-inline">
+            <li><strong>Preis (Deutschland):</strong> 149,00 €</li>
+            <li><strong>Preis (Österreich):</strong> 153,00 €</li>
+          </ul>
+          <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button"><i class="fas fa-xmark me-1"></i> Close</button>
+        </div></div></div></div>
+      </div></div>
+    </div>
+
+    <div class="portfolio-modal modal fade" id="portfolioModal3" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog"><div class="modal-content">
+        <button class="modal-close" data-bs-dismiss="modal" aria-label="Close">
+          <img src="assets/img/close-icon.svg" alt="Close modal" />
+        </button>
+        <div class="container"><div class="row justify-content-center"><div class="col-lg-8"><div class="modal-body">
+          <h2 class="text-uppercase">FlyBi Explorer Edition</h2>
+          <p class="item-intro text-muted">Wetterfest. Robust. Geländetauglich.</p>
+          <img class="img-fluid d-block mx-auto" src="images/portfolio/case-boden.jpeg" alt="Explorer Edition" />
+          <p>7‑Zoll‑Touchscreen im wasser- und stoßfesten Gehäuse. Echtzeit‑Erkennung, lokale DB, Statistiken auf dem Gerät oder via WLAN. Export, Online/Offline, >8.500 Arten weltweit, 6‑m‑Mikrofonkabel. Netzunabhängig per Powerbank.</p>
+          <ul class="list-inline">
+            <li><strong>Preis (Deutschland):</strong></li>
+            <li><strong>Preis (Österreich):</strong></li>
+          </ul>
+          <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button"><i class="fas fa-xmark me-1"></i> Close</button>
+        </div></div></div></div>
+      </div></div>
+    </div>
+
+    <div class="portfolio-modal modal fade" id="portfolioModal4" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog"><div class="modal-content">
+        <button class="modal-close" data-bs-dismiss="modal" aria-label="Close">
+          <img src="assets/img/close-icon.svg" alt="Close modal" />
+        </button>
+        <div class="container"><div class="row justify-content-center"><div class="col-lg-8"><div class="modal-body">
+          <h2 class="text-uppercase">TrafficPi</h2>
+          <img class="img-fluid d-block mx-auto" src="images/coming_soon_pi.png" alt="TrafficPi" />
+          <ul class="list-inline"><li><strong>Preis (Deutschland):</strong> -</li><li><strong>Preis (Österreich):</strong> -</li></ul>
+          <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button"><i class="fas fa-xmark me-1"></i> Close</button>
+        </div></div></div></div>
+      </div></div>
+    </div>
+
+    <div class="portfolio-modal modal fade" id="portfolioModal5" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog"><div class="modal-content">
+        <button class="modal-close" data-bs-dismiss="modal" aria-label="Close">
+          <img src="assets/img/close-icon.svg" alt="Close modal" />
+        </button>
+        <div class="container"><div class="row justify-content-center"><div class="col-lg-8"><div class="modal-body">
+          <h2 class="text-uppercase">HouseholdPi</h2>
+          <img class="img-fluid d-block mx-auto" src="images/coming_soon_pi.png" alt="HouseholdPi" />
+          <ul class="list-inline"><li><strong>Preis (Deutschland):</strong> -</li><li><strong>Preis (Österreich):</strong> -</li></ul>
+          <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button"><i class="fas fa-xmark me-1"></i> Close</button>
+        </div></div></div></div>
+      </div></div>
+    </div>
+
+    <!-- JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="js/scripts.js"></script>
+  </body>
+</html>
