@@ -64,7 +64,7 @@ h1, h2, h3, h4, h5, h6 {
   padding-top: calc(6rem + 72px);
   padding-bottom: 6rem;
   background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.65)),
-              url('../images/portfolio/home-ansicht.jpg') center/cover no-repeat;
+              url('../assets/img/header-bg.jpg') center/cover no-repeat;
   text-align: center;
   color: #fff;
 }
@@ -200,9 +200,9 @@ h1, h2, h3, h4, h5, h6 {
   position: absolute;
   z-index: 100;
   left: 50%;
-  width: 100px;
-  height: 100px;
-  margin-left: -50px;
+  width: 150px;
+  height: 150px;
+  margin-left: -75px;
   text-align: center;
   color: white;
   border: 7px solid #e9ecef;
@@ -228,6 +228,14 @@ h1, h2, h3, h4, h5, h6 {
 .timeline .timeline-body > p {
   margin-bottom: 0;
 }
+@media (min-width: 992px) {
+  .timeline > li .timeline-image {
+    width: 170px;
+    height: 170px;
+    margin-left: -85px;
+  }
+}
+
 @media (max-width: 992px) {
   .timeline:before {
     left: 40px;
