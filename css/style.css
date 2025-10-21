@@ -278,30 +278,41 @@ h1, h2, h3, h4, h5, h6 {
 @media (max-width: 767px) {
   .timeline > li .timeline-panel {
     padding: 0 20px 20px 20px;
-    text-align: left;
+    text-align: right;
   }
   .timeline > li .timeline-image {
-    left: 10px;
-    margin-left: 0;
+    left: 0px;
+    margin-left: 180px;
+    width: 75px;
+    height: 75px;
+  }
+  .timeline > li {
+    position: relative;
+    min-height: 0px;
+    margin-bottom: 0px;
+    margin-top: 0px; /* Diese Zeile hinzufügen */
+    margin-left: 0px;
+    margin-right: 0;
   }
   .timeline:before {
-    left: 35px;
+    left: 0px;
   }
   .timeline > li.timeline-inverted > .timeline-panel {
-    padding: 0 20px 20px 20px;
+    padding: 0 0 0 0;
   }
 }
 
-@media (max-width: 450px) {
+@media (max-width: 600px) {
   .timeline:before {
     display: none;
   }
   .timeline > li .timeline-image {
-    position: static;
+    position: relative; 
     width: 120px;
     height: 120px;
     margin: 0 auto 20px;
   }
+
   .timeline > li .timeline-panel {
     padding: 0 20px;
     width: 100%;
