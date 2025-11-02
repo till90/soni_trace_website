@@ -113,8 +113,10 @@
     scroll-behavior:smooth;
     padding: 6px var(--peek) 16px;
     mask-image: linear-gradient(90deg, transparent 0, black 6%, black 94%, transparent 100%);
+    touch-action: pan-x pinch-zoom;
+    overscroll-behavior-x: contain; /* optional angenehmer auf Android */
   }
-  .track{display:flex; gap:2vw; align-items:stretch; touch-action: pan-y;}
+  .track{display:flex; gap:2vw; align-items:stretch; }
   .slide{
     flex: 0 0 var(--slideW);
     scroll-snap-align:center;
