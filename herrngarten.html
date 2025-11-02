@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tierarten im Herrngarten – Darmstadt</title>
+<meta name="description" content="Tierarten im Herrngarten: Wischbarer Bilder-Slider mit Informationen." />
+<style>
+  :root{
+    --bg:#0b0b0c; --fg:#f1f5f9; --muted:#9aa0a6;
+    --card:#15161a; --accent:#4c9aff;
+    --pad:12px; --gap:10px; --radius:16px;
+    --shadow:0 8px 24px rgba(0,0,0,.35);
+    --peek:12vw; --slideW:76vw;
+    --pill:#1b1f27; --pill-link:#111827; --bd:#20242c;
+    --hdr-bg: rgba(11,11,12,.80);
+  }
+
+  *{box-sizing:border-box}
+  html,body{
+    margin:0;
+    color:var(--fg);
+    font:15px/1.45 system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    /* Endlos-Hintergrund */
+    background:
+      url("images/herrngarten/background.jpg")
+      0 0 / 420px auto ;
+  }
+
+  /* Lesbarkeits-Overlay für gesamten Content */
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background:rgba(6,8,12,.55);
+    pointer-events:none;
+    z-index:-1;
+  }
+
+  /* ---------- Sticky Header mit Hamburger rechts ---------- */
+  header{
+    position:sticky; top:0; z-index:10;
+    display:flex; align-items:center; justify-content:center;
+    padding:12px calc(var(--pad));
+    background:var(--hdr-bg);
+    backdrop-filter: blur(6px);
+    border-bottom:1px solid var(--bd);
+  }
+  header h1{margin:0; font-size:1.06rem}
+  /* Platzhalter links, Button rechts */
+  .hdr-spacer{position:absolute; left:8px; height:1px; width:1px}
+  .hdr-menu-btn{
+    position:absolute; right:8px; top:50%; translate:0 -50%;
+    width:40px; height:40px; border-radius:10px;
+    display:grid; place-items:center;
+    background:rgba(17,23,34,.6);
+    border:1px solid var(--bd);
+    color:var(--fg);
+    cursor:pointer;
+  }
+  .hdr-menu-btn:active{transform:translateY(1px)}
+  .hamb{
+    width:20px; height:14px; position:relative;
+  }
+  .hamb span{
+    position:absolute; left:0; right:0; height:2px; background:currentColor; border-radius:2px;
+  }
+  .hamb span:nth-child(1){ top:0 }
+  .hamb span:nth-child(2){ top:6px }
+  .hamb span:nth-child(3){ top:12px }
+
+  /* ---------- Offcanvas-Menü rechts ---------- */
+  .sheet{
+    position:fixed; top:0; right:0; height:100dvh;
+    width:78vw; max-width:360px;
+    background:rgba(13,16,22,.96);
+    border-left:1px solid var(--bd);
+    box-shadow: -16px 0 32px rgba(0,0,0,.4);
+    transform:translateX(100%);
+    transition:transform .26s ease;
+    z-index:20;
+    display:flex; flex-direction:column;
+  }
+  .sheet.open{ transform:translateX(0) }
+  .sheet header{
+    position:sticky; top:0; background:transparent; border:0;
+    justify-content:flex-start; padding:14px 14px 8px;
+  }
+  .sheet h2{font-size:1rem; margin:0}
+  .sheet .content{padding:10px 14px 20px; display:flex; flex-direction:column; gap:10px}
+  .sheet a{
+    display:flex; align-items:center; gap:10px;
+    background:var(--pill-link); color:var(--fg);
+    border:1px solid var(--bd); border-radius:12px;
+    padding:10px 12px; text-decoration:none; font-weight:600;
+  }
+  .sheet a:hover{ filter:brightness(1.07) }
+  .sheet .ext{font-size:.86rem; color:var(--muted); font-weight:500}
+
+  .backdrop{
+    position:fixed; inset:0; background:rgba(0,0,0,.35);
+    backdrop-filter: blur(1px);
+    opacity:0; pointer-events:none; transition:opacity .2s ease;
+    z-index:19;
+  }
+  .backdrop.show{ opacity:1; pointer-events:auto }
+
+  /* ---------- Slider ---------- */
+  .slider{
+    position:relative;
+    overflow-x:auto; overflow-y:hidden;
+    -webkit-overflow-scrolling:touch;
+    scroll-snap-type:x mandatory;
+    scroll-behavior:smooth;
+    padding: 6px var(--peek) 16px;
+    mask-image: linear-gradient(90deg, transparent 0, black 6%, black 94%, transparent 100%);
+  }
+  .track{display:flex; gap:2vw; align-items:stretch; touch-action: pan-y;}
+  .slide{
+    flex: 0 0 var(--slideW);
+    scroll-snap-align:center;
+    position:relative;
+    border-radius: var(--radius);
+    overflow:hidden;
+    background:#0f1115cc;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--bd);
+    cursor:pointer; user-select:none;
+    transform: translateZ(0);
+  }
+  .slide img{
+    display:block; width:100%;
+    height: clamp(36vh, 44vw, 58vh);
+    object-fit:cover; background:#0b0d11;
+  }
+  .slide .label{
+    position:absolute; top:8px; left:8px; max-width:92%;
+    background:rgba(0,0,0,.65);
+    border:1px solid rgba(255,255,255,.08);
+    color:#fff; font-weight:700; font-size:.92rem;
+    padding:6px 10px; border-radius:10px;
+    backdrop-filter: blur(2px);
+  }
+  .slide:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+  /* ---------- Info-Bereich ---------- */
+  .info{padding: 10px var(--pad) 28px;}
+  .card{
+    background: color-mix(in oklab, var(--card) 92%, transparent);
+    border:1px solid var(--bd);
+    border-radius: calc(var(--radius) + 2px);
+    box-shadow: var(--shadow);
+    padding: 14px;
+  }
+  .title{margin:0 0 6px;font-size:1.12rem}
+  .meta{margin:0 0 10px;color:var(--muted);font-size:.94rem}
+  .kv p{margin:.2rem 0}
+  .kv strong{font-weight:600}
+  .desc{margin:10px 0 0;font-size:1rem}
+
+  /* ---------- Pills ---------- */
+  .traits, .links{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px}
+  .pill{
+    display:flex; align-items:center; gap:8px; padding:8px 10px;
+    border-radius:999px; background:var(--pill); border:1px solid var(--bd);
+    font-size:.92rem; color:var(--fg);
+  }
+  .pill svg{width:18px; height:18px; flex:0 0 18px}
+  .pill-link{
+    background:var(--pill-link);
+    text-decoration:none; color:var(--fg); border:1px solid var(--bd);
+  }
+  .pill-link:hover{filter:brightness(1.1)}
+  .pill-link:active{transform:translateY(1px)}
+  .pill-link .label{white-space:nowrap}
+  /* ---------- (NEU) Bereich 3: User-Galerie + Upload ---------- */
+  .gallery-section{ padding: 6px var(--pad) 34px; }
+  .gallery-header{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin: 8px 0 12px; }
+  .gallery-header h2{ margin:0; font-size:1.05rem }
+  .gallery-grid{
+    display:grid; grid-template-columns: repeat(2, 1fr); gap:8px;
+  }
+  .gallery-item{ position:relative; border-radius:12px; overflow:hidden; border:1px solid var(--bd); background:#0f1115cc }
+  .gallery-item img{ width:100%; height:32vw; max-height:220px; object-fit:cover; display:block; }
+  .gallery-item .cap{ position:absolute; left:6px; bottom:6px; right:6px; font-size:.8rem; color:#eaeef7;
+    background:rgba(0,0,0,.45); padding:4px 6px; border-radius:8px; border:1px solid rgba(255,255,255,.08) }
+  .gallery-empty{ color:var(--muted); font-size:.95rem; padding:8px 0 4px }
+
+  /* Upload-Form */
+  .upload{ margin-top:16px; }
+  .upload .card{ padding:12px }
+  .upload form{ display:grid; gap:10px }
+  .row{ display:grid; gap:8px }
+  .row.two{ grid-template-columns: 1fr 1fr; gap:8px }
+  label{ font-size:.92rem; color:#dbe3f3 }
+  input[type="text"], input[type="email"], textarea{
+    width:100%; padding:10px 12px; border-radius:10px; border:1px solid var(--bd);
+    background:#0f1320; color:var(--fg); font:inherit;
+  }
+  input[type="file"]{
+    width:100%; padding:10px; border-radius:10px; border:1px solid var(--bd);
+    background:#0f1320; color:#cdd7f5;
+  }
+  .consent{ display:flex; gap:8px; align-items:flex-start; font-size:.9rem; color:#e9eefc }
+  .btn{
+    appearance:none; border:1px solid var(--bd); border-radius:12px;
+    background:#1a2538; color:#fff; padding:10px 14px; font-weight:700; cursor:pointer;
+  }
+  .btn:hover{ filter:brightness(1.1) }
+  .btn:active{ transform:translateY(1px) }
+
+  .preview{ display:flex; gap:10px; align-items:center }
+  .preview img{ width:72px; height:72px; object-fit:cover; border-radius:10px; border:1px solid var(--bd) }
+  .hint{ color:var(--muted); font-size:.9rem }
+  .success{ color:#22c55e; font-weight:600; }
+
+  /* Desktop Tweaks */
+  @media (min-width: 820px){
+    :root{ --peek: 18vw; --slideW: 54vw; }
+    header h1{font-size:1.25rem}
+    .slide img{height: clamp(40vh, 36vw, 66vh)}
+    body{font-size:16px}
+    .info, .gallery-section{max-width:900px;margin:0 auto}
+    .gallery-grid{ grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+  <!-- Sticky Header -->
+  <header>
+    <span class="hdr-spacer" aria-hidden="true"></span>
+    <h1>Tierarten im Herrngarten</h1>
+    <button class="hdr-menu-btn" id="menuBtn" type="button" aria-label="Menü öffnen" aria-controls="sheet" aria-expanded="false">
+      <span class="hamb" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </span>
+    </button>
+  </header>
+
+  <!-- Offcanvas Menü -->
+  <aside class="sheet" id="sheet" aria-hidden="true" aria-label="Menü">
+    <header><h2>Menü</h2></header>
+    <div class="content">
+      <a href="https://sonitrace.com" target="_blank" rel="noopener noreferrer">
+        <!-- Link-Icon -->
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14l-1 1a4 4 0 0 1-6-3 4 4 0 0 1 4-4h3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M14 10l1-1a4 4 0 0 1 6 3 4 4 0 0 1-4 4h-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M8 12h8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <span>sonitrace.com</span>
+        <span class="ext" aria-hidden="true">↗︎</span>
+      </a>
+    </div>
+  </aside>
+  <div class="backdrop" id="backdrop"></div>
+
+  <!-- Slider -->
+  <section class="slider" id="slider" aria-label="Tierbilder-Slider">
+    <div class="track" id="track" role="list"></div>
+  </section>
+
+  <!-- Info-Bereich -->
+  <section class="info" aria-live="polite">
+    <article class="card" id="detail">
+      <h2 class="title">Tippe auf ein Tier</h2>
+      <p class="meta">Herrngarten · Darmstadt</p>
+      <div class="kv">
+        <p><strong>Artname (deutsch):</strong> –</p>
+        <p><strong>Englischer Artname:</strong> –</p>
+        <p><strong>Wissenschaftlich:</strong> –</p>
+      </div>
+      <div class="traits" id="traits" hidden></div>
+      <div class="links" id="links" hidden></div>
+      <p class="desc">Hier erscheinen die Informationen zur ausgewählten Art.</p>
+    </article>
+  </section>
+
+  <!-- (NEU) Bereich 3: User-Galerie + Upload -->
+  <section class="gallery-section" id="user-section">
+    <div class="gallery-header">
+      <h2>User-Galerie</h2>
+      <span class="hint">Bilder von Besucher*innen</span>
+    </div>
+    <div id="user-gallery" class="gallery-grid" aria-live="polite"></div>
+    <p id="gallery-empty" class="gallery-empty" hidden>Noch keine Bilder vorhanden.</p>
+
+    <div class="upload">
+      <article class="card">
+        <h3 style="margin:0 0 6px;font-size:1.02rem">Eigenes Bild einreichen</h3>
+        <p class="hint">Dateityp: JPG/PNG, max. 10 MB. Mit dem Upload bestätigst du, dass du die Rechte am Bild besitzt und einer Veröffentlichung zustimmst.</p>
+
+        <!-- WICHTIG: Trage hier deinen Server-Endpoint ein -->
+        <form id="upload-form" action="/upload" method="POST" enctype="multipart/form-data" novalidate>
+          <div class="row two">
+            <div>
+              <label for="uf-name">Name (optional)</label>
+              <input id="uf-name" name="name" type="text" placeholder="Max Mustermann" />
+            </div>
+            <div>
+              <label for="uf-email">E-Mail (optional)</label>
+              <input id="uf-email" name="email" type="email" placeholder="max@example.org" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label for="uf-title">Titel / Motiv (optional)</label>
+              <input id="uf-title" name="title" type="text" placeholder="Amsel am Teich" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label for="uf-file">Foto auswählen</label>
+              <input id="uf-file" name="photo" type="file" accept="image/*" required />
+            </div>
+            <div class="preview" id="uf-preview" hidden>
+              <img id="uf-thumb" alt="Vorschau" />
+              <span class="hint">Vorschau</span>
+            </div>
+          </div>
+
+          <label class="consent">
+            <input id="uf-consent" name="consent" type="checkbox" required />
+            <span>Ich bestätige, dass ich Urheber*in des Fotos bin und einer Veröffentlichung in der Galerie zustimme.</span>
+          </label>
+
+          <div class="row">
+            <button class="btn" type="submit">Bild einsenden</button>
+            <span id="uf-status" class="hint" role="status" aria-live="polite"></span>
+          </div>
+        </form>
+      </article>
+    </div>
+  </section>
+
+
+<script>
+/* ===================== Konfiguration ===================== */
+const IMAGES = [
+  "teichralle.jpg",
+  "ringeltaube.jpg",
+  "amsel.jpg",
+  "star.jpg",
+  "girlitz.jpg",
+  "buntspecht.jpg"
+];
+
+/*
+ Felder je Art:
+ - de, en, lat, info
+ - habitat, diet, migration, status, breeding, size, freq, voice
+ - links: { wiki, wiki_en, nabu, gbif, xeno, audio }
+*/
+const SPECIES_INFO = {
+  teichralle:{
+    de:"Teichralle", en:"Common Moorhen", lat:"Gallinula chloropus",
+    habitat:"Teiche, Gräben, langsam fließende Gewässer",
+    diet:"Wasserpflanzen, Insekten, Schnecken",
+    migration:"Kurzstreckenzieher/Standvogel",
+    status:"nicht gefährdet (regional)",
+    breeding:"Apr–Aug; oft 2 Bruten",
+    size:"Länge ~32–35 cm",
+    freq:"häufig in Parkgewässern",
+    voice:"kurze, meckernde Rufe",
+    links:{
+      wiki:"https://de.wikipedia.org/wiki/Teichralle",
+      wiki_en:"https://en.wikipedia.org/wiki/Common_moorhen",
+      nabu:"https://www.nabu.de/tiere-und-pflanzen/voegel/steckbriefe/index.html",
+      gbif:"https://www.gbif.org/",
+      xeno:"https://xeno-canto.org/species/Gallinula-chloropus",
+      audio:""
+    },
+    info:"Das Teichhuhn gehört zur Familie der Rallen …\n\nQuelle: HGON 2010"
+  },
+  ringeltaube:{
+    de:"Ringeltaube", en:"Common Wood Pigeon", lat:"Columba palumbus",
+    habitat:"Stadtgrün, Parks, Wälder, Alleen, Streuobst",
+    diet:"Sämereien, Knospen, Blätter, Früchte",
+    migration:"Teilzieher/Standvogel",
+    status:"nicht gefährdet",
+    breeding:"Mär–Sep; bis 3 Bruten",
+    size:"Länge ~41–45 cm",
+    freq:"flächendeckend, sehr häufig",
+    voice:"tiefes 5-silbiges „hu-hu-hu hu-hu“",
+    links:{
+      wiki:"https://de.wikipedia.org/wiki/Ringeltaube",
+      wiki_en:"https://en.wikipedia.org/wiki/Common_wood_pigeon",
+      nabu:"https://www.nabu.de/tiere-und-pflanzen/voegel/steckbriefe/index.html",
+      gbif:"https://www.gbif.org/",
+      xeno:"https://xeno-canto.org/species/Columba-palumbus",
+      audio:""
+    },
+    info:"Heute lebt die Ringeltaube oft in innerstädtischen Parkanlagen …\n\nQuelle: HGON 2010"
+  },
+  amsel:{
+    de:"Amsel", en:"Common Blackbird", lat:"Turdus merula",
+    habitat:"Gärten, Parks, Wälder, Siedlungen",
+    diet:"Würmer, Insekten, Beeren",
+    migration:"Teilzieher/Standvogel",
+    status:"nicht gefährdet (regional Schwankungen)",
+    breeding:"Mär–Aug; bis 3 Bruten",
+    size:"Länge ~24–27 cm",
+    freq:"sehr häufig",
+    voice:"melodiöser variabler Gesang",
+    links:{
+      wiki:"https://de.wikipedia.org/wiki/Amsel",
+      wiki_en:"https://en.wikipedia.org/wiki/Common_blackbird",
+      nabu:"https://www.nabu.de/tiere-und-pflanzen/voegel/steckbriefe/index.html",
+      gbif:"https://www.gbif.org/",
+      xeno:"https://xeno-canto.org/species/Turdus-merula",
+      audio:""
+    },
+    info:"Jeder kennt den melodiös-flötenden Amselgesang …\n\nQuelle: HGON 2010"
+  },
+  star:{
+    de:"Star", en:"Common Starling", lat:"Sturnus vulgaris",
+    habitat:"Wälder, Wiesen, Siedlungen, Stadtparks",
+    diet:"Insekten, Früchte",
+    migration:"Teilzieher; große Schwärme",
+    status:"nicht gefährdet (Rückgänge lokal)",
+    breeding:"Apr–Jun; Höhlenbrüter",
+    size:"Länge ~20–22 cm",
+    freq:"sehr häufig; Kolonien",
+    voice:"imitiert Stimmen & Geräusche",
+    links:{
+      wiki:"https://de.wikipedia.org/wiki/Star_(Vogel)",
+      wiki_en:"https://en.wikipedia.org/wiki/Common_starling",
+      nabu:"https://www.nabu.de/tiere-und-pflanzen/voegel/steckbriefe/index.html",
+      gbif:"https://www.gbif.org/",
+      xeno:"https://xeno-canto.org/species/Sturnus-vulgaris",
+      audio:""
+    },
+    info:"Früher typischer Zugvogel …\n\nQuelle: HGON 2010"
+  },
+  girlitz:{
+    de:"Girlitz", en:"European Serin", lat:"Serinus serinus",
+    habitat:"Gärten, Parks, reich strukturiertes Offenland",
+    diet:"Sämereien (Kräuter/Stauden)",
+    migration:"Kurzstreckenzieher/Teilzieher",
+    status:"teils rückläufig",
+    breeding:"Apr–Aug; 1–2 Bruten",
+    size:"Länge ~11–12 cm",
+    freq:"häufig, regional schwankend",
+    voice:"klirrend-raschelig",
+    links:{
+      wiki:"https://de.wikipedia.org/wiki/Girlitz",
+      wiki_en:"https://en.wikipedia.org/wiki/European_serin",
+      nabu:"https://www.nabu.de/tiere-und-pflanzen/voegel/steckbriefe/index.html",
+      gbif:"https://www.gbif.org/",
+      xeno:"https://xeno-canto.org/species/Serinus-serinus",
+      audio:""
+    },
+    info:"Unser kleinster Fink …\n\nQuelle: HGON 2010"
+  },
+  buntspecht:{
+    de:"Buntspecht", en:"Great Spotted Woodpecker", lat:"Dendrocopos major",
+    habitat:"Wälder, Parks, Gärten, Alleen",
+    diet:"Insekten, Larven, Samen, Nüsse",
+    migration:"Standvogel (selten Irruptionen)",
+    status:"nicht gefährdet",
+    breeding:"Apr–Jun; Höhlenbrüter",
+    size:"Länge ~23 cm; Spannweite ~34–39 cm",
+    freq:"weit verbreitet",
+    voice:"„kik-kik“, Trommeln",
+    links:{
+      wiki:"https://de.wikipedia.org/wiki/Buntspecht",
+      wiki_en:"https://en.wikipedia.org/wiki/Great_spotted_woodpecker",
+      nabu:"https://www.nabu.de/tiere-und-pflanzen/voegel/steckbriefe/index.html",
+      gbif:"https://www.gbif.org/",
+      xeno:"https://xeno-canto.org/species/Dendrocopos-major",
+      audio:""
+    },
+    info:"Mittelgroßer, sehr weit verbreiteter Specht …"
+  }
+};
+
+/* ===================== Icons ===================== */
+const Icons = {
+  habitat:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21c3-6 7-9 9-9s6 3 9 9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M7 16c2-2 4-3 5-3 1 0 3 1 5 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M12 12V3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M12 3c2 1 3 2 3 3s-1 2-3 3c-2-1-3-2-3-3s1-2 3-3Z" fill="currentColor" opacity=".3"/></svg>`,
+  diet:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 15c4-6 7-6 10-6 2 0 4 1 6 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M7 19c2-3 4-3 6-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="18" cy="8" r="3" fill="currentColor" opacity=".35"/><path d="M18 5v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>`,
+  migration:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M11 7l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 7c1 2 2 3 3 5-1 2-2 3-3 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity=".6"/></svg>`,
+  status:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 4v5c0 4-3 7-7 9-4-2-7-5-7-9V7l7-4z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>`,
+  breeding:`<svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="14" rx="6" ry="4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 11c.8-2.5 3.2-4 4-4s3.2 1.5 4 4" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="8" r="1" fill="currentColor"/></svg>`,
+  size:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16M4 12h16M4 19h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M8 5v2M12 5v2M16 5v2M8 17v2M12 17v2M16 17v2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>`,
+  freq:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h3v3H5zM10.5 7H14v3h-3.5zM16 7h3v3h-3zM5 12h3v3H5zM10.5 12H14v3h-3.5zM16 12h3v3h-3zM5 17h3v3H5zM10.5 17H14v3h-3.5zM16 17h3v3h-3z" fill="currentColor" opacity=".9"/></svg>`,
+  voice:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 14V10h3l5-4v12l-5-4H4z" fill="currentColor" opacity=".8"/><path d="M15 9c1.5 1.2 1.5 4.8 0 6M18 7c2.5 2 2.5 8 0 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>`,
+  link:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14l-1 1a4 4 0 0 1-6-3 4 4 0 0 1 4-4h3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M14 10l1-1a4 4 0 0 1 6 3 4 4 0 0 1-4 4h-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M8 12h8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>`,
+  wiki:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M6 6l6 12L18 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  nabu:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18c2-4 6-6 10-6 2 0 4 .5 6 1.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M15 6l3 2-3 2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  gbif:`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 4v16M4 12h16M6 8h12M6 16h12" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>`,
+  audio:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10v4h3l5 4V6l-5 4H5z" fill="currentColor" opacity=".85"/><path d="M16 9c1.5 1.2 1.5 4.8 0 6M19 7c2.5 2 2.5 8 0 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>`
+};
+
+/* ===================== Utilities ===================== */
+const byId = (id) => document.getElementById(id);
+const sliderEl = byId("slider");
+const track  = byId("track");
+const detail = byId("detail");
+const sheet = byId("sheet");
+const backdrop = byId("backdrop");
+const menuBtn = byId("menuBtn");
+
+function keyFromFilename(fn){ return fn.replace(/\..*$/,"").toLowerCase().trim(); }
+function escapeHTML(s){ return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+function escapeAttr(s){ return escapeHTML(s).replace(/"/g,'&quot;'); }
+
+/* ===================== Menü-Logik ===================== */
+function openMenu(){
+  sheet.classList.add("open");
+  sheet.setAttribute("aria-hidden","false");
+  backdrop.classList.add("show");
+  menuBtn.setAttribute("aria-expanded","true");
+}
+function closeMenu(){
+  sheet.classList.remove("open");
+  sheet.setAttribute("aria-hidden","true");
+  backdrop.classList.remove("show");
+  menuBtn.setAttribute("aria-expanded","false");
+}
+menuBtn.addEventListener("click", ()=> sheet.classList.contains("open") ? closeMenu() : openMenu());
+backdrop.addEventListener("click", closeMenu);
+window.addEventListener("keydown", (e)=>{ if(e.key==="Escape") closeMenu(); });
+
+/* ===================== Slider rendern ===================== */
+const sources = IMAGES.map(fn => {
+  const key = keyFromFilename(fn);
+  const d = SPECIES_INFO[key] || {};
+  const label = `${d.de || fn} (${d.lat || ""})`.trim();
+  return { src:`images/herrngarten/${fn}`, key, label };
+});
+
+for(const {src,key,label} of sources){
+  const el = document.createElement("div");
+  el.className="slide"; el.setAttribute("role","listitem"); el.tabIndex=0;
+  el.dataset.key=key; el.dataset.src=src;
+  el.innerHTML = `
+    <img loading="lazy" src="${src}" alt="${escapeAttr(label)}" />
+    <span class="label">${escapeHTML(label)}</span>
+  `;
+  el.addEventListener("click", ()=>renderDetail(key, src));
+  el.addEventListener("keydown", (e)=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); renderDetail(key, src);} });
+  track.appendChild(el);
+}
+
+/* ===================== Pills ===================== */
+function traitPill(icon, label, value){
+  if(!value) return "";
+  const safeVal = escapeHTML(value), safeLabel = escapeHTML(label);
+  return `<div class="pill" role="group" aria-label="${safeLabel}" title="${safeLabel}: ${escapeAttr(value)}">${icon}<span class="label">${safeVal}</span></div>`;
+}
+function linkPill(icon, label, href){
+  if(!href) return "";
+  const safeLabel = escapeHTML(label); const safeHref = String(href);
+  return `<a class="pill pill-link" href="${safeHref}" target="_blank" rel="noopener noreferrer" aria-label="${safeLabel}" title="${safeLabel}">${icon}<span class="label">${safeLabel}</span></a>`;
+}
+
+/* ===================== Detailbereich ===================== */
+function renderDetail(key, imgSrc){
+  const d = SPECIES_INFO[key] || {};
+  const title = `${d.de || "Unbekannt"} (${d.lat || "—"})`;
+
+  const kvHTML = `
+    <div class="kv">
+      <p><strong>Artname (deutsch):</strong> ${escapeHTML(d.de || "")}</p>
+      <p><strong>Englischer Artname:</strong> ${escapeHTML(d.en || "")}</p>
+      <p><strong>Wissenschaftlich:</strong> ${escapeHTML(d.lat || "")}</p>
+    </div>`;
+
+  const traitsHTML = [
+    traitPill(Icons.habitat,  "Lebensraum", d.habitat),
+    traitPill(Icons.diet,     "Nahrung", d.diet),
+    traitPill(Icons.migration,"Zugverhalten", d.migration),
+    traitPill(Icons.status,   "Schutzstatus", d.status),
+    traitPill(Icons.breeding, "Brutzeit", d.breeding),
+    traitPill(Icons.size,     "Größe/Spannweite", d.size),
+    traitPill(Icons.freq,     "Häufigkeit", d.freq),
+    traitPill(Icons.voice,    "Stimme", d.voice)
+  ].filter(Boolean).join("");
+
+  const L = (d.links||{});
+  const linksHTML = [
+    linkPill(Icons.wiki,  "Wikipedia (DE)", L.wiki),
+    linkPill(Icons.wiki,  "Wikipedia (EN)", L.wiki_en),
+    linkPill(Icons.nabu,  "NABU", L.nabu),
+    linkPill(Icons.gbif,  "GBIF", L.gbif),
+    linkPill(Icons.link,  "Xeno-Canto", L.xeno),
+    linkPill(Icons.audio, "Audio", L.audio)
+  ].filter(Boolean).join("");
+
+  const paras = (d.info||"Keine Beschreibung vorhanden.").split("\n");
+  const descHTML = paras.map(p => `<p class="desc">${escapeHTML(p)}</p>`).join("");
+
+  detail.innerHTML = `
+    <h2 class="title">${escapeHTML(title)}</h2>
+    <p class="meta">Englischer Artname: ${escapeHTML(d.en || "n/a")}</p>
+    ${kvHTML}
+    <div class="traits"${traitsHTML ? "" : " hidden"}>${traitsHTML}</div>
+    <div class="links"${linksHTML ? "" : " hidden"}>${linksHTML}</div>
+    ${descHTML}
+    <figure style="margin:12px 0 0">
+      <img src="${imgSrc}" alt="${escapeAttr(title)}" style="max-width:100%;border-radius:12px;border:1px solid var(--bd)" />
+    </figure>
+  `;
+}
+
+/* ===================== Autoplay & Zentrierung ===================== */
+let idx = 0;
+const slides = () => Array.from(track.children);
+const getPadding = () => parseFloat(getComputedStyle(sliderEl).paddingLeft) || 0;
+
+function scrollToIndex(i){
+  const items = slides(); if(!items.length) return;
+  idx = (i + items.length) % items.length;
+  const el = items[idx], x = el.offsetLeft - getPadding();
+  sliderEl.scrollTo({left:x, behavior:"smooth"});
+}
+function next(){ scrollToIndex(idx + 1); }
+
+let timer=null; const autoplayMs=5000;
+function startAuto(){ stopAuto(); timer=setInterval(next, autoplayMs); }
+function stopAuto(){ if(timer) clearInterval(timer), timer=null; }
+
+["touchstart","pointerdown","mouseenter","focusin"].forEach(ev => sliderEl.addEventListener(ev, stopAuto, {passive:true}));
+["touchend","pointerup","mouseleave","focusout"].forEach(ev => sliderEl.addEventListener(ev, ()=>{ setTimeout(startAuto,1200); }, {passive:true}));
+
+sliderEl.addEventListener("scroll", ()=>{
+  const items=slides(), center=sliderEl.scrollLeft + sliderEl.clientWidth/2;
+  let best=0,dist=1e9;
+  items.forEach((el,i)=>{ const cx=el.offsetLeft+el.offsetWidth/2; const d=Math.abs(cx-center); if(d<dist){dist=d;best=i;} });
+  idx=best;
+});
+
+/* Initial render */
+if(sources.length){ renderDetail(sources[0].key, sources[0].src); }
+startAuto();
+window.addEventListener("load", ()=>scrollToIndex(0));
+new ResizeObserver(()=>scrollToIndex(idx)).observe(sliderEl);
+
+/* ===================== (NEU) User-Galerie Loader ===================== */
+/*
+  Empfohlen: Lege unter images/herrngarten/users/index.json eine JSON-Datei ab:
+  [
+    {"file":"bild1.jpg","title":"Amsel am Teich","author":"Lena"},
+    {"file":"bild2.png","title":"Ringeltaube","author":"Ali"}
+  ]
+*/
+const USERS_JSON_URL = "images/herrngarten/users/index.json";
+const USERS_BASE = "images/herrngarten/users/";
+
+/* Fallback-Liste, wenn kein index.json vorhanden ist: */
+const USERS_FALLBACK = [
+  // "benutzerfoto1.jpg", "benutzerfoto2.jpg"
+];
+
+async function loadUserGallery(){
+  const grid = byId("user-gallery");
+  const emptyMsg = byId("gallery-empty");
+
+  let items = [];
+  try{
+    const res = await fetch(USERS_JSON_URL, {cache:"no-store"});
+    if(res.ok){
+      items = await res.json();
+    } else if(USERS_FALLBACK.length){
+      items = USERS_FALLBACK.map(f => ({file:f}));
+    }
+  }catch(e){
+    if(USERS_FALLBACK.length){
+      items = USERS_FALLBACK.map(f => ({file:f}));
+    }
+  }
+
+  grid.innerHTML = "";
+  if(!items || !items.length){
+    emptyMsg.hidden = false;
+    return;
+  }
+  emptyMsg.hidden = true;
+
+  for(const it of items){
+    const src = USERS_BASE + it.file;
+    const cap = [it.title, it.author ? `© ${it.author}` : ""].filter(Boolean).join(" · ");
+    const card = document.createElement("figure");
+    card.className = "gallery-item";
+    card.innerHTML = `
+      <img loading="lazy" src="${src}" alt="${escapeAttr(it.title || 'Besucherbild')}" />
+      ${cap ? `<figcaption class="cap">${escapeHTML(cap)}</figcaption>` : ""}
+    `;
+    grid.appendChild(card);
+  }
+}
+loadUserGallery();
+
+/* ===================== (NEU) Upload-Form Client-Validierung & Preview ===================== */
+const ufForm = byId("upload-form");
+const ufFile = byId("uf-file");
+const ufConsent = byId("uf-consent");
+const ufStatus = byId("uf-status");
+const ufPreview = byId("uf-preview");
+const ufThumb = byId("uf-thumb");
+
+ufFile.addEventListener("change", () => {
+  const f = ufFile.files?.[0];
+  if(!f){ ufPreview.hidden = true; ufThumb.src = ""; return; }
+  if(!/^image\//.test(f.type)){ ufStatus.textContent = "Bitte ein Bild wählen (JPG/PNG)."; ufPreview.hidden=true; ufFile.value=""; return; }
+  if(f.size > 10*1024*1024){ ufStatus.textContent = "Datei ist größer als 10 MB."; ufPreview.hidden=true; return; }
+  const url = URL.createObjectURL(f);
+  ufThumb.src = url; ufPreview.hidden = false;
+  ufStatus.textContent = "";
+});
+
+ufForm.addEventListener("submit", (e) => {
+  // einfache Client-Validierung
+  const f = ufFile.files?.[0];
+  if(!f){ e.preventDefault(); ufStatus.textContent = "Bitte ein Bild auswählen."; return; }
+  if(!ufConsent.checked){ e.preventDefault(); ufStatus.textContent = "Bitte den Bedingungen zustimmen."; return; }
+  ufStatus.textContent = "Sende Bild …";
+  // Optional: Entferne die folgende Zeile, wenn du ein echtes Backend hast
+  // e.preventDefault(); ufStatus.innerHTML = '<span class="success">Vorschau-Upload (Demo). Trage deinen Server-Endpunkt in <code>action</code> ein.</span>';
+});
+
+</script>
+</body>
+</html>
